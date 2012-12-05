@@ -1,0 +1,93 @@
+<html>
+
+<head>
+	<title> Find Your Domain Name
+	</title>
+
+</head>
+
+<script src="/javascript/jquery-1.8.2.min.js"></script>
+
+<script src="/javascript/bootstrap.min.js"></script>
+<link href="/css/bootstrap.min.css" rel="stylesheet" media="screen">
+
+<script type="text/javascript">
+
+$(function(){
+	
+
+	$("form").submit(function() {
+		$("#spinner").show();
+
+		var name = $("input:text").val();
+
+		$.post("/whois",
+			{ domain: name },
+			function(data) {
+				
+				$("#spinner").hide();
+				$('#domainData').append("<tr> <td>" + data.domain + "</td> <td>" + data.state + "</td> </tr>");
+			},
+			"json"
+			)
+		$("input:text").val('');
+
+		return false;
+	});
+});
+
+
+</script>
+
+
+<style>
+
+div {
+	text-align: center;
+}
+
+h1 {
+	text-align: center;
+	font-size: 300%;
+}
+
+th {
+	font-size: 150%;
+}
+
+</style>
+
+<body>
+
+	<div class="hero-unit container">
+		<form class="form-search" method="get" action="/whois" id="form_submit">
+			<h1>
+				Find your Domain Name
+			</h1>
+			<p> 
+				Type in your desired domain name below to see if it's available
+			</p>
+			<p><input class="input-large search-query" type="text" name="domain" placeholder="Type a domain name..."></p>
+			<input type="submit" value="Submit" class="btn btn-primary btn-large">
+		</form>
+	</div>
+
+	<table class="table table-striped" id="domainData">
+
+		<thead>
+
+			<th>Domain:</th>
+			<th>State:</th>
+
+		</thead>
+
+
+	</table>
+	<div class="hide" id="spinner"><img src="images/ajax-loader.gif"></div>
+</div>
+</div>
+
+</body>
+
+
+</html>
